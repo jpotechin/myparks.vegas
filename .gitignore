@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.log
+.idea
+haters/   
+# just don't have them
+variables.env
