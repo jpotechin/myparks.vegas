@@ -5,3 +5,4 @@ node_modules/
 haters/   
 # just don't have them
 variables.env
+variables.env.now
