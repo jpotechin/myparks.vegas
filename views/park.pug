@@ -1,0 +1,32 @@
+extends layout
+
+include mixins/_reviewForm
+include mixins/_review
+
+block content
+  .single
+    .single__hero
+      img.single__image(src=`/uploads/${park.photo || 'park.jpg'}`)
+      h2.title.title--single
+        a(href=`/park/${park.slug}`) #{park.name}
+
+  .single__details.inner
+    img.single__map(src=h.staticMap(park.location.coordinates))
+    p.single__location= park.location.address
+    p= park.description
+
+    if park.tags
+      ul.tags
+        each tag in park.tags
+          li.tag
+            a.tag__link(href=`/tags/${tag}`)
+              span.tag__text  ##{tag}
+
+    if user
+      +reviewForm(park)
+
+    if park.reviews
+      .reviews
+        each review in park.reviews
+          .review
+            +review(review)

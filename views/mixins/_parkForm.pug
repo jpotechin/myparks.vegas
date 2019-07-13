@@ -1,0 +1,26 @@
+mixin parkForm(park = {})
+  form(action=`/add/${park._id || ''}` method="POST" class="card" enctype="multipart/form-data")
+    label(for="name") Name
+    input(type="text" name="name" value=park.name)
+    label(for="description") Description
+    textarea(name="description")= park.description
+    //- Image Upload
+    label(for="photo") Photo
+      input(type="file" name="photo" id="photo" accept="image/gif, image/png, image/jpeg")
+      if park.photo
+        img(src=`/uploads/${park.photo}`, alt=park.name width=200)
+    //- address, lng and lat
+    label(for="address") Address
+    input(type="text" id="address" name="location[address]" value=(park.location && park.location.address))
+    label(for="lng") Address Lng
+    input(type="text" id="lng" name="location[coordinates][0]" value=(park.location && park.location.coordinates[0]) required)
+    label(for="lat") Address Lat
+    input(type="text" id="lat" name="location[coordinates][1]" value=(park.location && park.location.coordinates[1]) required)
+    - const choices = ['Archery','Baseball', 'Basketball (Indoors)', 'Basketball (Outdoors)', 'BMX Track', 'Bocce Ball', 'Community Center','Computer Lab', 'Disc Golf', 'Dog Park', 'Fitness Course', 'Fitness Room', 'Football', 'Gymnasium', 'Horse Arena', 'Horseshoes', 'Labyrinth', 'Lake', 'Picnic', 'Playground', 'Public Art', 'RC Plane', 'RC Boat', 'RC Car', 'Restroom', 'Roller Hockey', 'Running', 'Skateboard Park', 'Soccer', 'Swimming', 'Tennis', 'Vollyball', 'Walking Paths', 'Splash Pad']
+    - const tags = park.tags || []
+    ul.tags
+      each choice in choices
+        .tag.tag__choice
+          input(type="checkbox" id=choice value=choice name="tags" checked=(tags.includes(choice)))
+          label(for=choice) #{choice}
+    input(type="submit" value="Save →" class="button")
